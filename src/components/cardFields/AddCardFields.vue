@@ -1,4 +1,3 @@
-// lron
 <template>
   <div class="col s12 m6">
     <div>
@@ -83,6 +82,7 @@ export default {
         return;
       }
       try {
+        console.log("hallo world");
         this.$emit("addfieldtype", {
           name: this.name,
           type: this.type,
