@@ -82,7 +82,6 @@ export default {
         return;
       }
       try {
-        console.log("hallo world");
         this.$emit("addfieldtype", {
           name: this.name,
           type: this.type,
