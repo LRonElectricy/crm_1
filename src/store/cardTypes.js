@@ -68,6 +68,7 @@ export default {
         let ret = await axios.get(`https://editor.b2b.playflow.io/API_CRM/SET/DeletFrom.php?key=1&querry=\`card_types\` WHERE id='${Card.id}'`).then(function (response) {
         })
         context.dispatch('getAllCardTypes');
+        ;
       } catch (error) {
         console.log(error);
         context.commit('setError', error)
