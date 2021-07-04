@@ -5,15 +5,19 @@
     </div>
     <section>
       <div class="row" v-if="!loading">
-        <AddCardType @addcategory="addCategory" />
-        <EditCardTypes
-          v-if="AllCardTypes.length"
-          :categories="AllCardTypes"
-          :key="refresh"
-          @updatecategorie="updateCategorie"
-          @deletItem="deletItem"
-        />
-        <p class="center" v-else>Добавти категорию</p>
+        <transition appear name="fade">
+          <div>
+            <AddCardType @addcategory="addCategory" />
+            <EditCardTypes
+              v-if="AllCardTypes.length"
+              :categories="AllCardTypes"
+              :key="refresh"
+              @updatecategorie="updateCategorie"
+              @deletItem="deletItem"
+            />
+            <p class="center" v-else>Добавти категорию</p>
+          </div>
+        </transition>
       </div>
       <Preloader v-else />
     </section>
@@ -43,7 +47,10 @@ export default {
       this.loading = false;
 
       this.$store.subscribe((mutation, state) => {
-        if (mutation.type === "updateCardType" || mutation.type ===  'setAllCardTypes') {
+        if (
+          mutation.type === "updateCardType" ||
+          mutation.type === "setAllCardTypes"
+        ) {
           console.log("see mutation in updateCardType");
           this.refresh = !this.refresh;
         }
@@ -64,12 +71,12 @@ export default {
     async addCategory(categoryData) {
       console.log("creating cat ");
       this.$message(`${categoryData} создан!`);
-      await this.$store.dispatch("addCardType",categoryData);
+      await this.$store.dispatch("addCardType", categoryData);
     },
-    async deletItem(item){
-      await this.$store.dispatch("deletCardType",item);
+    async deletItem(item) {
+      await this.$store.dispatch("deletCardType", item);
       this.$message(`${item.name} удален!`);
-    }
+    },
   },
 };
 </script>

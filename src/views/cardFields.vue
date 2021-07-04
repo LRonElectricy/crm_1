@@ -5,16 +5,20 @@
     </div>
     <section>
       <div class="row" v-if="!loading">
-        <AddCardFields @addfieldtype="addFieldType" />
-        <EditCardFields
-          v-if="AllCartFields.length"
-          :categories="AllCartFields"
-          :firstSelected="AllCartFields[0].id"
-          :key="refresh"
-          @updatefieldtype="updatefieldtype"
-          @deletItem="deletItem"
-        />
-        <p class="center" v-else>Добавти категорию</p>
+        <transition appear name="fade">
+          <div>
+            <AddCardFields @addfieldtype="addFieldType" />
+            <EditCardFields
+              v-if="AllCartFields.length"
+              :categories="AllCartFields"
+              :firstSelected="AllCartFields[0].id"
+              :key="refresh"
+              @updatefieldtype="updatefieldtype"
+              @deletItem="deletItem"
+            />
+            <p class="center" v-else>Добавти категорию</p>
+          </div>
+        </transition>
       </div>
       <Preloader v-else />
     </section>
