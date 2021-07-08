@@ -31,12 +31,24 @@
         />
 
         <TextInput
-          v-if="type != 2"
+          v-if="type != 2 && type != 1"
           type="text"
           v-model="value"
           :lable="'Настройки'"
           :error="'введите Настройки'"
           :errorClass="'invalid'"
+        />
+        <checkBox
+        v-if="type == 1"
+        :key="selected_object.id"
+          type="text"
+          v-model="value"
+          :lable="'по умолчанию'"
+          @change="
+            (e) => {
+              value = e;
+            }
+          "
         />
 
         <button class="btn waves-effect waves-light" type="submit">
@@ -51,6 +63,7 @@
 import { required } from "vuelidate/lib/validators";
 import TextInput from "@/components/forms/text_input";
 import selectKeyValue from "@/components/forms/select_keyValue";
+import checkBox from "@/components/forms/checkBox";
 import { mapGetters } from "vuex";
 export default {
   data: () => ({
