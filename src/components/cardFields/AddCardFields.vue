@@ -39,8 +39,7 @@
           :errorClass="'invalid'"
         />
         <checkBox
-        v-if="type == 1"
-        :key="selected_object.id"
+          v-if="type == 1"
           type="text"
           v-model="value"
           :lable="'по умолчанию'"
@@ -80,6 +79,7 @@ export default {
   components: {
     TextInput,
     selectKeyValue,
+    checkBox,
   },
   computed: {
     ...mapGetters(["AllCartFieldsTypes"]),
@@ -87,6 +87,11 @@ export default {
   created() {
     this.type = this.AllCartFieldsTypes[0].id;
     // this.refresh = !this.refresh;
+  },
+  watch: {
+    type() {
+      this.type = this.type;
+    },
   },
   methods: {
     async onSubmit() {

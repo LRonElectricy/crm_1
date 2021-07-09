@@ -32,5 +32,8 @@ export default {
       default: null,
     },
   },
+  mounted(){
+    M.updateTextFields();
+  }
 };
 </script>

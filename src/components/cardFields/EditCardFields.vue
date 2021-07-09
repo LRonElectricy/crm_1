@@ -19,32 +19,32 @@
             }
           "
         />
+        <div v-if="!previewMode">
+          <TextInput
+            type="text"
+            v-model="name"
+            :lable="'Название'"
+            :error="'введите название'"
+            :showError="$v.name.$dirty && !$v.name.required"
+            :errorClass="'invalid'"
+          />
 
-        <TextInput
-          type="text"
-          v-model="name"
-          :lable="'Название'"
-          :error="'введите название'"
-          :showError="$v.name.$dirty && !$v.name.required"
-          :errorClass="'invalid'"
-        />
+          <selectKeyValue
+            :key="refresh"
+            v-model="type"
+            :value="type"
+            :options="AllCartFieldsTypes"
+            :showName="'name'"
+            :keyName="'id'"
+            :lable="'Тип'"
+            @change="
+              (e) => {
+                type = e;
+              }
+            "
+          />
 
-        <selectKeyValue
-          :key="refresh"
-          v-model="type"
-          :value="type"
-          :options="AllCartFieldsTypes"
-          :showName="'name'"
-          :keyName="'id'"
-          :lable="'Тип'"
-          @change="
-            (e) => {
-              type = e;
-            }
-          "
-        />
-
-        <!-- <TextInput
+          <!-- <TextInput
           type="text"
           v-model="type"
           :lable="'Тип'"
@@ -52,43 +52,100 @@
           :showError="$v.type.$dirty && !$v.type.required"
           :errorClass="'invalid'"
         /> -->
-        <TextInput
-          v-if="type != 2 && type != 1"
-          type="text"
-          v-model="value"
-          :lable="'Настройки'"
-          :error="'введите Настройки'"
-          :errorClass="'invalid'"
-        />
+          <TextInput
+            v-if="type != 2 && type != 1"
+            :key="refresh"
+            type="text"
+            v-model="value"
+            :lable="'Настройки'"
+            :error="'введите Настройки'"
+            :errorClass="'invalid'"
+          />
 
-        <checkBox
-        v-if="type == 1"
-        :key="selected_object.id"
-          type="text"
-          v-model="value"
-          :lable="'по умолчанию'"
-          @change="
-            (e) => {
-              value = e;
-            }
-          "
-        />
-        <button
-          class="btn waves-effect waves-light red"
-          @click.prevent="$emit('deletItem', { id: current, name: title })"
-        >
-          Удалить
-          <i class="material-icons right">delete_forever</i>
-        </button>
-        <br /><br />
-        <button
-          :class="{ ['disabled']: !newDate }"
-          class="btn waves-effect waves-light"
-          type="submit"
-        >
-          Обновить
-          <i class="material-icons right">send</i>
-        </button>
+          <checkBox
+            v-if="type == 1"
+            :key="selected_object.id"
+            type="text"
+            v-model="value"
+            :lable="'по умолчанию'"
+            @change="
+              (e) => {
+                value = e;
+              }
+            "
+          />
+
+          <div class="control_buts">
+            <div>
+              <button
+                class="btn waves-effect waves-light red"
+                @click.prevent="
+                  $emit('deletItem', { id: current, name: title })
+                "
+              >
+                Удалить
+                <i class="material-icons right">delete_forever</i>
+              </button>
+            </div>
+            <div>
+              <button
+                :class="{ ['disabled']: !newDate }"
+                class="btn waves-effect waves-light"
+                type="submit"
+              >
+                Обновить
+                <i class="material-icons right">send</i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <table>
+            <thead>
+              <tr>
+                <th>НАЗВАНИЕ</th>
+                <th>ЗНАЧЕНИЕ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <td>{{ name }}</td>
+              <td>
+                <checkBox
+                  v-if="type == 1"
+                  :key="selected_object.id"
+                  type="text"
+                  v-model="value"
+                  :lable="'по умолчанию'"
+                  @change="
+                    (e) => {
+                      value = e;
+                    }
+                  "
+                />
+
+                <TextInput
+                  v-if="type == 2"
+                  :key="refresh"
+                  type="text"
+                  :error="'введите ' + name"
+                  :errorClass="'invalid'"
+                />
+
+                <select_simple
+                  v-if="type == 3"
+                  :key="selected_object.id"
+                  :value="value.split(';')[0]"
+                  :options="value.split(';')"
+                  @change="
+                    (e) => {
+                      current = e;
+                    }
+                  "
+                />
+              </td>
+            </tbody>
+          </table>
+        </div>
       </form>
     </div>
   </div>
@@ -98,6 +155,7 @@
 import { required } from "vuelidate/lib/validators";
 import TextInput from "@/components/forms/text_input";
 import selectKeyValue from "@/components/forms/select_keyValue";
+import select_simple from "@/components/forms/select_simple";
 import checkBox from "@/components/forms/checkBox";
 import { mapGetters } from "vuex";
 export default {
@@ -107,6 +165,9 @@ export default {
     },
     firstSelected: {
       default: null,
+    },
+    previewMode: {
+      default: false,
     },
   },
   data: () => ({
@@ -139,6 +200,7 @@ export default {
     TextInput,
     selectKeyValue,
     checkBox,
+    select_simple,
   },
   computed: {
     ...mapGetters(["AllCartFieldsTypes"]),
@@ -199,3 +261,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.control_buts div {
+  display: inline-block;
+  margin: 0 1em 0 0;
+}
+</style>

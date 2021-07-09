@@ -31,7 +31,7 @@ export default {
     },
     value: {
       type: [String, Number, Boolean],
-      default: "",
+      default: "false",
     },
     lable: "",
     error: "",
