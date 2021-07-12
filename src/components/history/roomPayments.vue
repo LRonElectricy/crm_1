@@ -1,5 +1,5 @@
 <template>
-  <table>
+  <table class="highlight">
     <thead>
       <tr>
         <th>#</th>

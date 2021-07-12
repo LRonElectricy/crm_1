@@ -7,15 +7,33 @@
       <div class="row" v-if="!loading">
         <transition appear name="fade">
           <div>
-            <AddCardType @addcategory="addCategory" />
-            <EditCardTypes
-              v-if="AllCardTypes.length"
-              :categories="AllCardTypes"
-              :key="refresh"
-              @updatecategorie="updateCategorie"
-              @deletItem="deletItem"
-            />
-            <p class="center" v-else>Добавти категорию</p>
+            <div class="col s6">
+              <addFieldToCard
+                @selectcard="selectCard"
+                v-if="AllCardTypes.length"
+                :categories="AllCardTypes"
+                :key="refresh"
+                @updatecategorie="updateCategorie"
+                @deletItem="deletItem"
+              />
+
+              <p class="center" v-else>Добавти категорию</p>
+              <div class="divider col s12"></div>
+            </div>
+            <div class="col s6">
+              <div
+                v-for="Type in AllCardTypesToFields.filter(
+                  (c) => c.card_types === current
+                )"
+                :key="Type.id"
+              >
+                <CardFieldPeview
+                  :oneCategoty="
+                    AllCartFields.find((field) => field.id === Type.field_types)
+                  "
+                />
+              </div>
+            </div>
           </div>
         </transition>
       </div>
@@ -25,25 +43,36 @@
 </template>
 
 <script>
-import EditCardTypes from "@/components/cardTypes/EditCardTypes";
-import AddCardType from "@/components/cardTypes/AddCardType";
+import addFieldToCard from "@/components/fieldsInCards/addFieldToCard";
+import CardFieldPeview from "@/components/cardFields/CardFieldPeview";
+
+// import AddCardType from "@/components/cardTypes/AddCardType";
 import { mapGetters } from "vuex";
 export default {
   data: () => ({
     loading: true,
     refresh: false,
+    current: null,
   }),
   components: {
-    EditCardTypes,
-    AddCardType,
+    addFieldToCard,
+    CardFieldPeview,
+    // AddCardType,
   },
   computed: {
-    ...mapGetters(["AllCardTypes"]),
+    ...mapGetters([
+      "AllCardTypes",
+      "AllCartFields",
+      "AllCartFieldsTypes",
+      "AllCardTypesToFields",
+    ]),
   },
   async mounted() {
     try {
       console.log("mounted()...");
       await this.$store.dispatch("getAllCardTypes");
+      await this.$store.dispatch("getAllFieldTypes");
+      await this.$store.dispatch("AllCardTypesToFields");
       this.loading = false;
 
       this.$store.subscribe((mutation, state) => {
@@ -76,6 +105,14 @@ export default {
     async deletItem(item) {
       await this.$store.dispatch("deletCardType", item);
       this.$message(`${item.name} удален!`);
+    },
+    selectCard(selectedCadrID) {
+      this.current = selectedCadrID;
+    },
+  },
+  watch: {
+    current() {
+      console.log("paret see selected:" + this.current);
     },
   },
 };

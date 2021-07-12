@@ -7,6 +7,7 @@ import getCategories from './getCategories'
 import records from './records'
 import cardTypes from './cardTypes'
 import cardFields from './cardFields'
+import cardTypesToFields from './cardTypesToFields'
 
 Vue.use(Vuex)
 
@@ -39,6 +40,6 @@ export default new Vuex.Store({
     }
   },
   modules: {
-    auth, info, addCategory, getCategories, records, cardTypes, cardFields
+    auth, info, addCategory, getCategories, records, cardTypes, cardFields, cardTypesToFields
   }
 })

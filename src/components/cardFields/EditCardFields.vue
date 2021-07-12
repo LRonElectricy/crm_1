@@ -20,31 +20,36 @@
           "
         />
         <div v-if="!previewMode">
-          <TextInput
-            type="text"
-            v-model="name"
-            :lable="'Название'"
-            :error="'введите название'"
-            :showError="$v.name.$dirty && !$v.name.required"
-            :errorClass="'invalid'"
-          />
+          <div class="col s12 m4">
+            <TextInput
+              type="text"
+              v-model="name"
+              :lable="'Название'"
+              :error="'введите название'"
+              :showError="$v.name.$dirty && !$v.name.required"
+              :errorClass="'invalid'"
+            />
+          </div>
 
-          <selectKeyValue
-            :key="refresh"
-            v-model="type"
-            :value="type"
-            :options="AllCartFieldsTypes"
-            :showName="'name'"
-            :keyName="'id'"
-            :lable="'Тип'"
-            @change="
-              (e) => {
-                type = e;
-              }
-            "
-          />
+          <div class="col s12 m4">
+            <selectKeyValue
+              :key="refresh"
+              v-model="type"
+              :value="type"
+              :options="AllCartFieldsTypes"
+              :showName="'name'"
+              :keyName="'id'"
+              :lable="'Тип'"
+              @change="
+                (e) => {
+                  type = e;
+                }
+              "
+            />
+          </div>
 
-          <!-- <TextInput
+          <div class="col s12 m4">
+            <!-- <TextInput
           type="text"
           v-model="type"
           :lable="'Тип'"
@@ -52,30 +57,73 @@
           :showError="$v.type.$dirty && !$v.type.required"
           :errorClass="'invalid'"
         /> -->
-          <TextInput
-            v-if="type != 2 && type != 1"
-            :key="refresh"
-            type="text"
-            v-model="value"
-            :lable="'Настройки'"
-            :error="'введите Настройки'"
-            :errorClass="'invalid'"
-          />
+            <TextInput
+              v-if="type == 3"
+              :key="refresh"
+              type="text"
+              v-model="value"
+              :lable="'Настройки'"
+              :error="'введите Настройки'"
+              :errorClass="'invalid'"
+            />
 
-          <checkBox
-            v-if="type == 1"
-            :key="selected_object.id"
-            type="text"
-            v-model="value"
-            :lable="'по умолчанию'"
-            @change="
-              (e) => {
-                value = e;
-              }
-            "
-          />
+            <checkBox
+              v-if="type == 1"
+              :key="selected_object.id"
+              type="text"
+              v-model="value"
+              :lable="'по умолчанию'"
+              @change="
+                (e) => {
+                  value = e;
+                }
+              "
+            />
+            <TextInput
+              type="number"
+              v-if="type == 4 || type == 5"
+              v-model="value"
+              :lable="'По умолчанию'"
+              :error="'введите название'"
+              :showError="$v.name.$dirty && !$v.name.required"
+              :errorClass="'invalid'"
+            />
+            <TextInput
+              type="date"
+              v-if="type == 6"
+              v-model="value"
+              :lable="'По умолчанию'"
+              :error="'введите название'"
+              :showError="$v.name.$dirty && !$v.name.required"
+              :errorClass="'invalid'"
+            />
+            <TextInput
+              type="datetime-local"
+              v-if="type == 7"
+              v-model="value"
+              :error="'введите название'"
+              :showError="$v.name.$dirty && !$v.name.required"
+              :errorClass="'invalid'"
+            />
+            <TextInput
+              type="time"
+              v-if="type == 8"
+              v-model="value"
+              :error="'введите название'"
+              :showError="$v.name.$dirty && !$v.name.required"
+              :errorClass="'invalid'"
+            />
+            <TextInput
+              type="color"
+              v-if="type == 9"
+              v-model="value"
+              :error="'введите название'"
+              :showError="$v.name.$dirty && !$v.name.required"
+              :errorClass="'invalid'"
+            />
+          </div>
 
-          <div class="control_buts">
+          <div class="control_buts col s12 m12">
             <div>
               <button
                 class="btn waves-effect waves-light red"
@@ -219,6 +267,7 @@ export default {
       try {
         // await this.$store.dispatch('updateCategorie',categoryData)
         // this.$message(`вы обновили ${this.title}`);
+        console.log(this.selected_object);
         this.$emit("updatefieldtype", this.selected_object);
       } catch (error) {}
     },

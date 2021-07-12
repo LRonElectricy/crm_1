@@ -1,5 +1,5 @@
 <template>
-  <div class="col s12 m6">
+  <div class="col s12">
     <div>
       <div class="page-subtitle">
         <h4>Добавить</h4>
@@ -96,6 +96,7 @@ export default {
       this.value = this.selected_object.value;
       // this.limit = this.categories.find(cat => cat.id===cur_ID).limit
       console.log("current id is " + this.current);
+      this.$emit('selectcard',this.current);
       this.refresh = !this.refresh;
     },
     // name(new_obj) {

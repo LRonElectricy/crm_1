@@ -51,6 +51,15 @@ const routes = [
     component: ()=> import('@/views/CardTypes.vue')
   },
   {
+    path: '/FieldsInCards',
+    name: 'FieldsInCards',
+    meta:{
+      layout:'main',
+      auth: true
+    },
+    component: ()=> import('@/views/FieldsInCards.vue')
+  },
+  {
     path: '/detail/:id',
     name: 'detail',
     meta:{

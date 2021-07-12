@@ -28,7 +28,8 @@ export default {
        {title:"Новая запись",url:"/records",exact:false},
        {title:"Категории",url:"/categories",exact:false},
        {title:"Типы карточек",url:"/cardTypes",exact:false},
-       {title:"Типы полей",url:"/cardFields",exact:false}
+       {title:"Типы полей",url:"/cardFields",exact:false},
+       {title:"Поля в карточки",url:"/FieldsInCards",exact:false}
     ]
      
   })

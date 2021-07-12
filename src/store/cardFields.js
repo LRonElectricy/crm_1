@@ -47,7 +47,7 @@ export default {
     },
     async updateCardField(context, newCard) {
       try {
-        let ret = await axios.get(`https://editor.b2b.playflow.io/API_CRM/SET/UpdateCommon.php?key=1&querry=\`field_types\` SET \`name\` = '${newCard.name}', \`type\` = '${newCard.type}', \`value\` = '${newCard.value}' WHERE \`field_types\`.\`id\`=${newCard.id}`).then(function (response) {
+        let ret = await axios.get(`https://editor.b2b.playflow.io/API_CRM/SET/UpdateCommon.php?key=1&querry=\`field_types\` SET \`name\` = '${newCard.name}', \`type\` = '${newCard.type}', \`value\` = '${encodeURIComponent(newCard.value)}' WHERE \`field_types\`.\`id\`=${newCard.id}`).then(function (response) {
           })
         // context.commit('setAllCartFields', newCard)
       } catch (error) {
