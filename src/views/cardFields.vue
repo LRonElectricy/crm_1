@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>Типы карточек!!!!</h3>
+      <h3>Типы карточек???</h3>
     </div>
     <section>
       <div class="row" v-if="!loading">
