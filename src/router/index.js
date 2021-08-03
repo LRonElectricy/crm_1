@@ -60,6 +60,15 @@ const routes = [
     component: ()=> import('@/views/FieldsInCards.vue')
   },
   {
+    path: '/createProduct',
+    name: 'createProduct',
+    meta:{
+      layout:'main',
+      auth: true
+    },
+    component: ()=> import('@/views/createProduct.vue')
+  },
+  {
     path: '/detail/:id',
     name: 'detail',
     meta:{

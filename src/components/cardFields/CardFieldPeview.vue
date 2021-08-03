@@ -3,7 +3,7 @@
     <div class="card-panel hoverable col s12">
       <div class="section">
         <!-- <div class="col s6">{{ oneCategoty.name }}</div> -->
-        <div class="col s6">
+        <div class="col" :class="[showDelete ? 's6' : 's12']">
           {{ oneCategoty.name }}
           <select_simple
             v-if="oneCategoty.type == 3"
@@ -12,7 +12,7 @@
             :options="oneCategoty.value.split(';')"
             @change="
               (e) => {
-                current = e;
+                oneCategoty.current = e;
               }
             "
           />
@@ -24,7 +24,7 @@
             :lable="'по умолчанию'"
             @change="
               (e) => {
-                value = e;
+                oneCategoty.value = e;
               }
             "
           />
@@ -35,12 +35,44 @@
             :lable="'число'"
           />
           <TextInput
-              v-if="oneCategoty.type == 2"
-              :key="refresh"
-              type="text"
-              v-model="oneCategoty.value"
-              :lable="'Текст'"
-            />
+            v-if="oneCategoty.type == 2"
+            :key="refresh"
+            type="text"
+            v-model="oneCategoty.value"
+            :lable="'Текст'"
+          />
+          <TextInput
+            type="date"
+            v-if="oneCategoty.type == 6"
+            v-model="oneCategoty.value"
+            :lable="'По умолчанию'"
+          />
+          <TextInput
+            type="datetime-local"
+            v-if="oneCategoty.type == 7"
+            v-model="oneCategoty.value"
+          />
+          <TextInput
+            type="time"
+            v-if="oneCategoty.type == 8"
+            v-model="oneCategoty.value"
+          />
+          <TextInput
+            type="color"
+            v-if="oneCategoty.type == 9"
+            v-model="oneCategoty.value"
+          />
+        </div>
+        <div class="col s6" v-if="showDelete">
+          <button
+            class="btn waves-effect waves-light red"
+            @click.prevent="
+              $emit('deletItem', { id: oneCategoty.id, name: oneCategoty.name })
+            "
+          >
+            Удалить
+            <i class="material-icons right">delete_forever</i>
+          </button>
         </div>
       </div>
     </div>
@@ -55,7 +87,17 @@ import selectKeyValue from "@/components/forms/select_keyValue";
 import checkBox from "@/components/forms/checkBox";
 import { mapGetters } from "vuex";
 export default {
-  props: ["oneCategoty"],
+  props: {
+    oneCategoty: {
+      default: null,
+    },
+    showDelete: {
+      default: true,
+    },
+    val: {
+      default: "",
+    },
+  },
   data: () => ({
     title: "",
     current: null,
@@ -69,6 +111,9 @@ export default {
     // this.select = M.FormSelect.init(this.$refs.select);
   },
   created() {
+    if(this.oneCategoty.type == 3){
+      this.oneCategoty.current=this.oneCategoty.value.split(';')[0];
+    }
     // this.current = this.categories[0].id;
     // this.title = this.categories[0].name;
   },

@@ -2,7 +2,7 @@
   <div class="col s12">
     <div>
       <div class="page-subtitle">
-        <h4>Добавить</h4>
+        <h4>Карточки</h4>
       </div>
 
       <form @submit.prevent="onSubmit">
@@ -13,19 +13,40 @@
           :options="categories"
           :showName="'name'"
           :keyName="'id'"
+          :lable="'выбери карточку'"
+          :key="refresh"
           @change="
             (e) => {
               current = e;
             }
           "
         />
+        <selectKeyValue
+          ref="select2"
+          v-model="toAdd"
+          :value="toAdd"
+          :options="fields"
+          :showName="'name'"
+          :keyName="'id'"
+          :lable="'добавить поле'"
+          :key="refresh"
+          @change="
+            (e) => {
+              toAdd = e;
+            }
+          "
+        />
+        <button class="btn waves-effect waves-light" type="submit">
+          Добавить
+          <i class="material-icons right">send</i>
+        </button>
+        <br /><br />
       </form>
     </div>
   </div>
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
 import TextInput from "@/components/forms/text_input";
 import selectKeyValue from "@/components/forms/select_keyValue";
 import select_simple from "@/components/forms/select_simple";
@@ -39,6 +60,9 @@ export default {
     firstSelected: {
       default: null,
     },
+    fields: {
+      default: null,
+    },
   },
   data: () => ({
     select: null,
@@ -49,14 +73,12 @@ export default {
     selected_object: null,
     refresh: false,
     newDate: false,
+    toAdd: null,
+    refresh: false,
   }),
-  validations: {
-    name: { required },
-    type: { required },
-  },
   mounted() {
     M.updateTextFields();
-    this.select = M.FormSelect.init(this.$refs.select);
+    // this.select = M.FormSelect.init(this.$refs.select);
   },
   created() {
     if (this.firstSelected) {
@@ -77,12 +99,12 @@ export default {
   },
   methods: {
     async onSubmit() {
-      if (this.$v.$invalid) {
-        this.$v.$touch();
-        return;
-      }
       try {
-        // this.$emit("updatefieldtype", this.selected_object);
+        if (this.toAdd !== null) {
+          this.$emit("addFieldToCard", {'card':this.current, 'field':this.toAdd});
+          this.toAdd=null;
+          this.refresh = !this.refresh;
+        }
       } catch (error) {}
     },
   },
@@ -96,7 +118,7 @@ export default {
       this.value = this.selected_object.value;
       // this.limit = this.categories.find(cat => cat.id===cur_ID).limit
       console.log("current id is " + this.current);
-      this.$emit('selectcard',this.current);
+      this.$emit("selectcard", this.current);
       this.refresh = !this.refresh;
     },
     // name(new_obj) {

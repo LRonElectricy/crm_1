@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>Поля в карточке</h3>
+      <h3>Создать продукт</h3>
     </div>
     <section>
       <div class="row" v-if="!loading">
@@ -24,22 +24,11 @@
               <div class="divider col s12"></div>
             </div>
             <div class="col s6">
-              <div class="page-subtitle">
-                <h4>Поля</h4>
-              </div>
-              <div
-                v-for="Type in AllCardTypesToFields.filter(
-                  (c) => c.card_types === current
-                )"
-                :key="Type.id"
-              >
-                <CardFieldPeview
-                  @deletItem="deletItem"
-                  :oneCategoty="
-                    AllCartFields.find((field) => field.id === Type.field_types)
-                  "
-                />
-              </div>
+              <createNewProduct
+                :fields="
+                  AllCardTypesToFields.filter((c) => c.card_types === current)
+                "
+              />
             </div>
           </div>
         </transition>
@@ -51,7 +40,8 @@
 
 <script>
 import addFieldToCard from "@/components/fieldsInCards/addFieldToCard";
-import CardFieldPeview from "@/components/cardFields/CardFieldPeview";
+// import CardFieldPeview from "@/components/cardFields/CardFieldPeview";
+import createNewProduct from "@/components/Products/createNewProduct";
 
 // import AddCardType from "@/components/cardTypes/AddCardType";
 import { mapGetters } from "vuex";
@@ -63,7 +53,8 @@ export default {
   }),
   components: {
     addFieldToCard,
-    CardFieldPeview,
+    // CardFieldPeview,
+    createNewProduct,
     // AddCardType,
   },
   computed: {

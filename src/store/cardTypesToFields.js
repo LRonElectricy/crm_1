@@ -16,7 +16,7 @@ export default {
       state.AllCardTypesToFields = AllCardTypesToFields
     },
     updateCardTypesToFields(state, newCard) {
-      state.AllCardTypesToFields.find((type) => type.id === newCard.id).field_types = newCard.field_types	;
+      state.AllCardTypesToFields.find((type) => type.id === newCard.id).field_types = newCard.field_types;
     }
   },
   actions: {
@@ -50,30 +50,31 @@ export default {
     //     throw error
     //   }
     // },
-    // async addCardType(context, newCard) {
-    //   try {
-    //     console.log("adding new card!"+newCard);
-    //     let ret = await axios.get(`https://editor.b2b.playflow.io/API_CRM/SET/InsertInto.php?key=1&querry=\`card_types\` (\`name\`) VALUES ('${newCard}')`).then(function (response) {
-    //     })
-    //     context.dispatch('getAllCardTypes');
-    //   } catch (error) {
-    //     console.log(error);
-    //     context.commit('setError', error)
-    //     throw error
-    //   }
-    // },
-    // async deletCardType(context, Card) {
-    //   try {
-    //     console.log("deleting card! "+Card.name);
-    //     let ret = await axios.get(`https://editor.b2b.playflow.io/API_CRM/SET/DeletFrom.php?key=1&querry=\`card_types\` WHERE id='${Card.id}'`).then(function (response) {
-    //     })
-    //     context.dispatch('getAllCardTypes');
-    //     ;
-    //   } catch (error) {
-    //     console.log(error);
-    //     context.commit('setError', error)
-    //     throw error
-    //   }
-    // }
+    async addCardTypeToField(context, newCard) {
+      try {
+        console.log("adding new addCardTypeToField!");
+        // console.log(`https://editor.b2b.playflow.io/API_CRM/SET/InsertInto.php?key=1&querry=\`card_types_to_field_types\` (\`card_types\`, \`field_types\`) VALUES ('${newCard.card}','${newCard.field}')`);
+        let ret = await axios.get(`https://editor.b2b.playflow.io/API_CRM/SET/InsertInto.php?key=1&querry=\`card_types_to_field_types\` (\`card_types\`, \`field_types\`) VALUES ('${newCard.card}','${newCard.field}')`).then(function (response) {
+        })
+        context.dispatch('AllCardTypesToFields');
+      } catch (error) {
+        console.log(error);
+        context.commit('setError', error)
+        throw error
+      }
+    },
+    async deletCardTypeToField(context, Card) {
+      try {
+        console.log("deleting card! "+Card.name);
+        let ret = await axios.get(`https://editor.b2b.playflow.io/API_CRM/SET/DeletFrom.php?key=1&querry=\`card_types_to_field_types\` WHERE id='${Card.id}'`).then(function (response) {
+        })
+        context.dispatch('AllCardTypesToFields');
+        ;
+      } catch (error) {
+        console.log(error);
+        context.commit('setError', error)
+        throw error
+      }
+    }
   }
 }
